@@ -5,12 +5,12 @@ import {
 } from "../../api/testResults";
 import { QUERY_KEYS } from "../../contansts/queryKeys";
 import { mbtiDescriptions } from "../../utils/mbtiCalculator";
-import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
+import useGetInfo from "../../hook/useGetInfo";
+import { getUserProfile } from "../../api/auth";
 
 const TestItem = ({ item }) => {
   const queryClient = useQueryClient();
-  const { user } = useContext(AuthContext);
+  const { data } = useGetInfo([QUERY_KEYS.PROFILE], getUserProfile);
 
   const updateVisibilityMutation = useMutation({
     mutationFn: updateTestResultVisibility,
@@ -84,7 +84,7 @@ const TestItem = ({ item }) => {
       </div>
 
       {/* 버튼 */}
-      {item.userId === user?.id && (
+      {item.userId === data?.id && (
         <div className="absolute bottom-4 right-4 flex gap-4">
           <button
             onClick={visibilityChangeHandler}

@@ -1,17 +1,18 @@
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import TestForm from "../components/Test/TestForm";
 import { calculateMBTI, mbtiDescriptions } from "../utils/mbtiCalculator";
 import { createTestResult } from "../api/testResults";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../contansts/queryKeys";
+import useGetInfo from "../hook/useGetInfo";
+import { getUserProfile } from "../api/auth";
 
 const TestPage = () => {
   const navigate = useNavigate();
   const [result, setResult] = useState(null);
-  const { user } = useContext(AuthContext);
   const queryClient = useQueryClient();
+  const { data } = useGetInfo([QUERY_KEYS.PROFILE], getUserProfile);
 
   const addMutation = useMutation({
     mutationFn: createTestResult,
@@ -22,16 +23,41 @@ const TestPage = () => {
     },
   });
 
+  useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(import.meta.env.VITE_KAKAO_API_KEY); // 카카오 앱 키를 입력하세요
+    }
+  }, []);
+
+  // 카카오톡 공유 기능
+  const shareToKakao = () => {
+    if (window.Kakao.isInitialized()) {
+      window.Kakao.Link.sendDefault({
+        objectType: "feed",
+        content: {
+          title: result,
+          description: mbtiDescriptions[result],
+          imageUrl:
+            "https://i.namu.wiki/i/thSCyTKlYyQouIvkvzBMCqlAA-a0rhTMsx5sL1al68opHj8e4Fx-5xiJNLIrHD1kgsud8GkoCWqRLj6UtAQZgg.webp", // 공유할 이미지 URL
+          link: {
+            mobileWebUrl: window.location.href, // 현재 페이지 URL을 공유
+            webUrl: window.location.href,
+          },
+        },
+      });
+    }
+  };
+
   const handleTestSubmit = async (answers) => {
     const mbtiResult = calculateMBTI(answers);
 
     // 서버에 전송할 데이터 형태로 변환
     const testResultData = {
-      nickname: user?.nickname, // 닉네임
+      nickname: data?.nickname, // 닉네임
       result: mbtiResult, // MBTI 결과값
       visibility: true, // 기본적으로 공개 설정
       date: new Date().toISOString().split("T")[0], // yyyy-MM-dd 형식 날짜
-      userId: user?.id, // 현재 사용자 ID
+      userId: data?.id, // 현재 사용자 ID
     };
     try {
       await addMutation.mutate(testResultData);
@@ -66,9 +92,15 @@ const TestPage = () => {
             </p>
             <button
               onClick={handleNavigateToResults}
-              className="w-full bg-primary-color text-white py-3 rounded-lg font-semibold hover:bg-primary-dark transition duration-300 hover:text-[#FF5A5F]"
+              className="w-full bg-primary-color text-white py-3 rounded-lg font-semibold hover:bg-primary-dark transition duration-300 hover:text-[#00a699]"
             >
               결과 페이지로 이동하기
+            </button>
+            <button
+              onClick={shareToKakao} // 카카오톡 공유 버튼 클릭 시 호출
+              className="w-full bg-secondary-color text-white py-3 rounded-lg font-semibold hover:bg-secondary-dark transition duration-300 hover:text-[#FF5A5F] mt-4"
+            >
+              공유하기
             </button>
           </>
         )}

@@ -17,46 +17,6 @@
       "userId": "dudguswhfksl"
     },
     {
-      "id": "096a",
-      "nickname": "하하하하",
-      "result": "INFP",
-      "visibility": true,
-      "date": "2025-02-21",
-      "userId": "whdudgus4545"
-    },
-    {
-      "id": "763b",
-      "nickname": "하하하하",
-      "result": "ISTJ",
-      "visibility": true,
-      "date": "2025-02-21",
-      "userId": "whdudgus4545"
-    },
-    {
-      "id": "39b4",
-      "nickname": "하하하하",
-      "result": "ENTJ",
-      "visibility": false,
-      "date": "2025-02-21",
-      "userId": "whdudgus4545"
-    },
-    {
-      "id": "d752",
-      "nickname": "vcbcvbcv",
-      "result": "ENFP",
-      "visibility": true,
-      "date": "2025-02-23",
-      "userId": "whdudgus4545"
-    },
-    {
-      "id": "6181",
-      "nickname": "으응?",
-      "result": "ISTJ",
-      "visibility": true,
-      "date": "2025-02-23",
-      "userId": "whdudgus4545"
-    },
-    {
       "id": "d8dd",
       "testResultData": {
         "nickname": "으응?",
@@ -67,9 +27,33 @@
       }
     },
     {
-      "id": "3a16",
+      "id": "8e58",
       "nickname": "하 너무 어렵다",
-      "result": "ISTJ",
+      "result": "ESTJ",
+      "visibility": true,
+      "date": "2025-02-24",
+      "userId": "whdudgus4545"
+    },
+    {
+      "id": "eaa2",
+      "nickname": "xzcxzc",
+      "result": "INFP",
+      "visibility": true,
+      "date": "2025-02-24",
+      "userId": "whdudgus4545"
+    },
+    {
+      "id": "57f1",
+      "nickname": "xzcxzc",
+      "result": "ESTJ",
+      "visibility": true,
+      "date": "2025-02-24",
+      "userId": "whdudgus4545"
+    },
+    {
+      "id": "fa50",
+      "nickname": "잘도ㅓㅣ나?",
+      "result": "ESTJ",
       "visibility": true,
       "date": "2025-02-24",
       "userId": "whdudgus4545"

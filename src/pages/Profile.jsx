@@ -1,14 +1,14 @@
 // Profile.jsx
-import { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateProfile } from "../api/auth";
+import { getUserProfile, updateProfile } from "../api/auth";
 import { QUERY_KEYS } from "../contansts/queryKeys";
+import useGetInfo from "../hook/useGetInfo";
 
 const Profile = () => {
-  const { user, setUser } = useContext(AuthContext);
-  const [nickname, setNickname] = useState(user?.nickname || "");
+  const [nickname, setNickname] = useState("");
   const queryClient = useQueryClient();
+  const { data } = useGetInfo([QUERY_KEYS.PROFILE], getUserProfile);
 
   const updateProfileMutation = useMutation({
     mutationFn: updateProfile,
@@ -24,7 +24,6 @@ const Profile = () => {
 
     try {
       await updateProfileMutation.mutateAsync({ nickname });
-      setUser((prevUser) => ({ ...prevUser, nickname }));
       alert("업데이트 성공!");
     } catch (error) {
       alert(error.response?.data?.message || "오류가 발생했습니다.");
@@ -41,7 +40,7 @@ const Profile = () => {
           className="space-y-6 bg-gray-50 p-6 rounded-lg shadow-md"
           onSubmit={handleSubmit}
         >
-          <label>닉네임: {user?.nickname || "불러오는 중..."}</label>
+          <label>닉네임: {data?.nickname || "불러오는 중..."}</label>
           <input
             type="text"
             name="nickname"

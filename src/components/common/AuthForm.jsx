@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { register } from "../../api/auth";
-import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "../../zustand/bearsStore";
 
 const AuthForm = ({ mode }) => {
   const isLoginMode = mode === "login";
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const { login } = useAuthStore();
   const [formData, setFormData] = useState({
     id: "",
     password: "",

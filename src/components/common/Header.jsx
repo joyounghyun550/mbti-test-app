@@ -1,9 +1,8 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import useAuthStore from "../../zustand/bearsStore";
 
 const Header = () => {
-  const { isAuthenticated, logout } = useContext(AuthContext); // AuthContext에서 로그인 상태와 logout 메서드 가져오기
+  const { isAuthenticated, logout } = useAuthStore();
   const navigate = useNavigate();
 
   const handleLogout = () => {

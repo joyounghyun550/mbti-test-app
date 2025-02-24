@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import TestInfoCard from "../components/Home/TestInfoCard";
 import { testInfoData } from "../data/testInfoData";
+import useAuthStore from "../zustand/bearsStore";
 
 const Home = () => {
-  const { isAuthenticated } = useContext(AuthContext); // AuthContext에서 상태 가져오기
+  const { isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
 
   const handleStartTest = () =>
@@ -28,7 +27,7 @@ const Home = () => {
       </div>
       <button
         onClick={handleStartTest}
-        className="inline-block bg-primary-color text-white py-2 px-6 rounded-full hover:bg-secondary-color transition mb-4 hover:text-[#FF5A5F]"
+        className="inline-block bg-primary-color text-white py-2 px-6 rounded-full hover:bg-secondary-color transition mb-4 hover:scale-110"
       >
         내 성격 알아보러 가기
       </button>

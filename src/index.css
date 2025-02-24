@@ -143,10 +143,17 @@ table {
   background-color: var(--primary-color);
 }
 
+.text-primary-color {
+  color: var(--primary-color);
+}
+
+.text-secondary-color {
+  color: var(--secondary-color);
+}
+
 .bg-secondary-color {
   background-color: var(--secondary-color);
 }
-
 #root {
   width: 100vw;
   height: 100vh;

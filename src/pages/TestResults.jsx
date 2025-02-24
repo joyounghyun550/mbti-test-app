@@ -1,17 +1,15 @@
-import { useContext } from "react";
 import { getTestResults } from "../api/testResults";
-import { AuthContext } from "../context/AuthContext";
-import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../contansts/queryKeys";
 import TestItem from "../components/Test/TestItem";
+import useAuthStore from "../zustand/bearsStore";
+import useGetInfo from "../hook/useGetInfo";
 
 const TestResults = () => {
-  const { user } = useContext(AuthContext);
-
-  const { data, isPending, isError } = useQuery({
-    queryKey: [QUERY_KEYS.RESULTS],
-    queryFn: getTestResults,
-  });
+  const { user } = useAuthStore();
+  const { data, isPending, isError } = useGetInfo(
+    [QUERY_KEYS.RESULTS],
+    getTestResults
+  );
 
   if (isPending) {
     return <div>Loading...</div>;
