@@ -1,14 +1,14 @@
 // Profile.jsx
 import { useState } from "react";
-import { getUserProfile } from "../api/auth";
+import { getUserProfile, updateProfile } from "../api/auth";
 import { QUERY_KEYS } from "../contansts/queryKeys";
 import useGetInfo from "../hook/useGetInfo";
 import useSmartMutation from "../hook/useSmartMutation";
 
 const Profile = () => {
   const [nickname, setNickname] = useState("");
-  const { data } = useGetInfo([QUERY_KEYS.PROFILE], getUserProfile);
-  const updateMutation = useSmartMutation(getUserProfile, QUERY_KEYS.PROFILE);
+  const { data } = useGetInfo([QUERY_KEYS.USER], getUserProfile);
+  const updateMutation = useSmartMutation(updateProfile, [QUERY_KEYS.USER]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
