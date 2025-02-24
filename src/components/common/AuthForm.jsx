@@ -30,9 +30,9 @@ const AuthForm = ({ mode }) => {
 
   // 회원가입 처리 함수
   const handleRegister = async () => {
-    await register(formData);
+    const success = await register(formData);
     alert("회원가입이 완료되었습니다!");
-    navigate("/login");
+    if (success) navigate("/login");
   };
 
   // 폼 제출 핸들러

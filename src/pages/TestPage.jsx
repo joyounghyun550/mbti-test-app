@@ -4,18 +4,29 @@ import { calculateMBTI, mbtiDescriptions } from "../utils/mbtiCalculator";
 import { createTestResult } from "../api/testResults";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "../contansts/queryKeys";
 
 const TestPage = () => {
   const navigate = useNavigate();
   const [result, setResult] = useState(null);
   const { user } = useContext(AuthContext);
+  const queryClient = useQueryClient();
+
+  const addMutation = useMutation({
+    mutationFn: createTestResult,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.RESULTS],
+      });
+    },
+  });
 
   const handleTestSubmit = async (answers) => {
     const mbtiResult = calculateMBTI(answers);
 
     // 서버에 전송할 데이터 형태로 변환
     const testResultData = {
-      id: crypto.randomUUID, // 게시글 ID
       nickname: user?.nickname, // 닉네임
       result: mbtiResult, // MBTI 결과값
       visibility: true, // 기본적으로 공개 설정
@@ -23,11 +34,11 @@ const TestPage = () => {
       userId: user?.id, // 현재 사용자 ID
     };
     try {
-      await createTestResult(testResultData);
-      setResult(mbtiResult);
+      await addMutation.mutate(testResultData);
     } catch (error) {
       console.error("테스트 결과 저장 실패:", error);
     }
+    setResult(mbtiResult);
   };
 
   const handleNavigateToResults = () => {

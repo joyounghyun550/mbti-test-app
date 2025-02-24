@@ -33,14 +33,6 @@
       "userId": "whdudgus4545"
     },
     {
-      "id": "7c36",
-      "nickname": "하하하하",
-      "result": "ISTP",
-      "visibility": true,
-      "date": "2025-02-21",
-      "userId": "whdudgus4545"
-    },
-    {
       "id": "39b4",
       "nickname": "하하하하",
       "result": "ENTJ",
@@ -54,6 +46,32 @@
       "result": "ENFP",
       "visibility": true,
       "date": "2025-02-23",
+      "userId": "whdudgus4545"
+    },
+    {
+      "id": "6181",
+      "nickname": "으응?",
+      "result": "ISTJ",
+      "visibility": true,
+      "date": "2025-02-23",
+      "userId": "whdudgus4545"
+    },
+    {
+      "id": "d8dd",
+      "testResultData": {
+        "nickname": "으응?",
+        "result": "INFP",
+        "visibility": true,
+        "date": "2025-02-24",
+        "userId": "whdudgus4545"
+      }
+    },
+    {
+      "id": "3a16",
+      "nickname": "하 너무 어렵다",
+      "result": "ISTJ",
+      "visibility": true,
+      "date": "2025-02-24",
       "userId": "whdudgus4545"
     }
   ]

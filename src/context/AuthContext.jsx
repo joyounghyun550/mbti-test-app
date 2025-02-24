@@ -1,6 +1,6 @@
 // AuthContext.jsx
 import { createContext, useEffect, useState } from "react";
-import { apiLogin, getUserProfile, updateProfile } from "../api/auth";
+import { apiLogin, getUserProfile } from "../api/auth";
 
 export const AuthContext = createContext();
 
@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const data = await apiLogin(userData);
       if (data.accessToken) {
-        sessionStorage.setItem("accessToken", data.accessToken);
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
@@ -44,23 +43,9 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  const nicknameUpdate = async (userData) => {
-    try {
-      const response = await updateProfile(userData);
-      if (response.success) {
-        setUser((prevState) => ({ ...prevState, nickname: userData.nickname }));
-      } else {
-        alert("업데이트에 실패하였습니다.");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("프로필 업데이트 중 오류가 발생했습니다.");
-    }
-  };
-
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, login, logout, nicknameUpdate, user }}
+      value={{ isAuthenticated, login, logout, user, setUser }}
     >
       {children}
     </AuthContext.Provider>
