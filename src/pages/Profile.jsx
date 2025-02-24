@@ -1,29 +1,19 @@
 // Profile.jsx
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { getUserProfile, updateProfile } from "../api/auth";
+import { getUserProfile } from "../api/auth";
 import { QUERY_KEYS } from "../contansts/queryKeys";
 import useGetInfo from "../hook/useGetInfo";
+import useSmartMutation from "../hook/useSmartMutation";
 
 const Profile = () => {
   const [nickname, setNickname] = useState("");
-  const queryClient = useQueryClient();
   const { data } = useGetInfo([QUERY_KEYS.PROFILE], getUserProfile);
-
-  const updateProfileMutation = useMutation({
-    mutationFn: updateProfile,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.PROFILE],
-      });
-    },
-  });
+  const updateMutation = useSmartMutation(getUserProfile, QUERY_KEYS.PROFILE);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      await updateProfileMutation.mutateAsync({ nickname });
+      await updateMutation.mutateAsync({ nickname });
       alert("업데이트 성공!");
     } catch (error) {
       alert(error.response?.data?.message || "오류가 발생했습니다.");

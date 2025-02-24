@@ -1,4 +1,3 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   deleteTestResult,
   updateTestResultVisibility,
@@ -7,40 +6,21 @@ import { QUERY_KEYS } from "../../contansts/queryKeys";
 import { mbtiDescriptions } from "../../utils/mbtiCalculator";
 import useGetInfo from "../../hook/useGetInfo";
 import { getUserProfile } from "../../api/auth";
+import useSmartMutation from "../../hook/useSmartMutation";
+import { formatDate } from "../../utils/\bformatDate";
 
 const TestItem = ({ item }) => {
-  const queryClient = useQueryClient();
+  const updateMutation = useSmartMutation(updateTestResultVisibility, [
+    QUERY_KEYS.RESULTS,
+  ]);
+  const daleteMutation = useSmartMutation(deleteTestResult, [
+    QUERY_KEYS.RESULTS,
+  ]);
   const { data } = useGetInfo([QUERY_KEYS.PROFILE], getUserProfile);
-
-  const updateVisibilityMutation = useMutation({
-    mutationFn: updateTestResultVisibility,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.RESULTS],
-      });
-    },
-  });
-
-  const deleteTestResultMutation = useMutation({
-    mutationFn: deleteTestResult,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.RESULTS],
-      });
-    },
-  });
-
-  // 날짜 포맷팅
-  const formatDate = (dateString) =>
-    new Intl.DateTimeFormat("ko-KR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    }).format(new Date(dateString));
 
   const visibilityChangeHandler = async () => {
     try {
-      await updateVisibilityMutation.mutateAsync({
+      await updateMutation.mutateAsync({
         id: item.id,
         visibility: !item.visibility,
       });
@@ -51,7 +31,7 @@ const TestItem = ({ item }) => {
 
   const resultDeleteHandler = async () => {
     try {
-      await deleteTestResultMutation.mutateAsync(item.id);
+      await daleteMutation.mutateAsync(item.id);
     } catch (error) {
       console.error(error);
     }

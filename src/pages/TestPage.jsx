@@ -1,52 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TestForm from "../components/Test/TestForm";
 import { calculateMBTI, mbtiDescriptions } from "../utils/mbtiCalculator";
 import { createTestResult } from "../api/testResults";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../contansts/queryKeys";
 import useGetInfo from "../hook/useGetInfo";
 import { getUserProfile } from "../api/auth";
+import useSmartMutation from "../hook/useSmartMutation";
+import useShareToKakao from "../hook/useShareToKakao";
 
 const TestPage = () => {
   const navigate = useNavigate();
   const [result, setResult] = useState(null);
-  const queryClient = useQueryClient();
   const { data } = useGetInfo([QUERY_KEYS.PROFILE], getUserProfile);
-
-  const addMutation = useMutation({
-    mutationFn: createTestResult,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.RESULTS],
-      });
-    },
-  });
-
-  useEffect(() => {
-    if (!window.Kakao.isInitialized()) {
-      window.Kakao.init(import.meta.env.VITE_KAKAO_API_KEY); // 카카오 앱 키를 입력하세요
-    }
-  }, []);
-
-  // 카카오톡 공유 기능
-  const shareToKakao = () => {
-    if (window.Kakao.isInitialized()) {
-      window.Kakao.Link.sendDefault({
-        objectType: "feed",
-        content: {
-          title: result,
-          description: mbtiDescriptions[result],
-          imageUrl:
-            "https://i.namu.wiki/i/thSCyTKlYyQouIvkvzBMCqlAA-a0rhTMsx5sL1al68opHj8e4Fx-5xiJNLIrHD1kgsud8GkoCWqRLj6UtAQZgg.webp", // 공유할 이미지 URL
-          link: {
-            mobileWebUrl: window.location.href, // 현재 페이지 URL을 공유
-            webUrl: window.location.href,
-          },
-        },
-      });
-    }
-  };
+  const addMutation = useSmartMutation(createTestResult, [QUERY_KEYS.RESULTS]);
+  const shareToKakao = useShareToKakao(result, mbtiDescriptions[result]);
 
   const handleTestSubmit = async (answers) => {
     const mbtiResult = calculateMBTI(answers);
