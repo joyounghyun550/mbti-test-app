@@ -1,6 +1,6 @@
 # MBTI 테스트 웹사이트
 
-![alt text](image.png)
+![Image](https://github.com/user-attachments/assets/d7b5609d-6915-42ca-958d-610fbe035e60)
 
 ## 소개
 
@@ -68,7 +68,6 @@ yarn dev
 
 - Glitch를 사용하여 서버 배포
 - Vercel를 사용하여 클라이언트 배포
-
 
 ## 라이선스
 
