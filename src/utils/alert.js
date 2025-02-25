@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import { ALERT_TYPE } from "../contansts/alertConstant";
 
-const { SUCCESS, WARNING, ERROR } = ALERT_TYPE;
+const { SUCCESS, WARNING, ERROR, CHECK } = ALERT_TYPE;
 
 export const alert = () => {
   const createAlert = (alertInfo) => {
@@ -28,6 +28,13 @@ export const alert = () => {
         buttonText: buttonText || "확인",
         showCancelButton: true,
         buttonColor: "rgb(245, 170, 104)",
+      },
+      [CHECK]: {
+        type: WARNING,
+        title: "CHECK!",
+        content: "항목을 체크해주세요.",
+        buttonText: buttonText || "확인",
+        buttonColor: "rgb(133, 215, 92)",
       },
     };
 

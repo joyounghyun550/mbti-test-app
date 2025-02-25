@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { questions } from "../../data/questions";
+import { ALERT_TYPE } from "../../contansts/alertConstant";
+import { alert } from "../../utils/alert";
 
 const TestForm = ({ onSubmit }) => {
   const [answers, setAnswers] = useState(
     Array(questions.length).fill({ type: "", answer: "" })
   );
+  const { CHECK } = ALERT_TYPE;
+  const alertConsole = alert();
 
   const handleChange = (index, optionIndex) => {
     const newAnswers = [...answers];
@@ -19,13 +23,36 @@ const TestForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const incompleteAnswerIndex = answers.findIndex(
+      (answer) => answer.answer === ""
+    );
+
+    if (incompleteAnswerIndex !== -1) {
+      const questionElement = document.getElementById(
+        `question-${incompleteAnswerIndex}`
+      );
+
+      // 스크롤 후 포커스 강제 설정
+      questionElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      questionElement.tabIndex = -1;
+      questionElement.focus({ preventScroll: true }); // 스크롤 위치 유지
+
+      // (2) 경고창 설정 변경
+      alertConsole({
+        type: CHECK,
+        content: "항목을 체크해주세요.",
+      });
+      return;
+    }
+
     onSubmit(answers);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 p-6 bg-white rounded-lg">
       {questions.map((q, index) => (
-        <div key={q.id} className="mb-6">
+        <div key={q.id} id={`question-${index}`} className="mb-6" tabIndex={-1}>
           <p className="font-semibold text-lg mb-3">{q.question}</p>
           <div className="space-y-2">
             {q.options.map((option, optionIndex) => {
