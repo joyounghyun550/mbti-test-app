@@ -4,9 +4,12 @@ import { testInfoData } from "../data/testInfoData";
 import useAuthStore from "../zustand/bearsStore";
 
 const Home = () => {
+  // 로그인 여부
   const { isAuthenticated } = useAuthStore();
+  // 페이지 이동 훅
   const navigate = useNavigate();
 
+  // 로그인 여부에 따른 페이지 전환
   const handleStartTest = () =>
     isAuthenticated
       ? navigate("/test-page")

@@ -5,16 +5,20 @@ import useGetInfo from "../hook/useGetInfo";
 import { getUserProfile } from "../api/auth";
 
 const TestResults = () => {
+  // 유저 정보 불러오기
   const { data: userInfo } = useGetInfo([QUERY_KEYS.USER], getUserProfile);
+  // 테스트 리스트 불러오기
   const { data, isPending, isError } = useGetInfo(
     [QUERY_KEYS.RESULTS],
     getTestResults
   );
 
+  // 로딩처리
   if (isPending) {
     return <div>Loading...</div>;
   }
 
+  // 에러처리
   if (isError) {
     return <div>Error...</div>;
   }

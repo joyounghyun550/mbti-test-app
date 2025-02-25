@@ -1,4 +1,3 @@
-// Profile.jsx
 import { useState } from "react";
 import { getUserProfile, updateProfile } from "../api/auth";
 import { QUERY_KEYS } from "../contansts/queryKeys";
@@ -7,9 +6,12 @@ import useSmartMutation from "../hook/useSmartMutation";
 
 const Profile = () => {
   const [nickname, setNickname] = useState("");
+  // 유저 정보 가져오기 훅
   const { data } = useGetInfo([QUERY_KEYS.USER], getUserProfile);
+  // 프로필 업데이트 훅
   const updateMutation = useSmartMutation(updateProfile, [QUERY_KEYS.USER]);
 
+  // 프로필 수정 업데이트 함수
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

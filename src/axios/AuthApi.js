@@ -6,7 +6,7 @@ const AuthApi = axios.create({
   baseURL: API_URL,
 });
 
-// 🔹 요청 인터셉터: accessToken 자동 추가
+// accessToken 자동 추가
 AuthApi.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("accessToken");
@@ -18,7 +18,7 @@ AuthApi.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// 🔹 응답 인터셉터: 오류 처리 (예: 토큰 만료 시 로그아웃)
+// 오류 처리 (토큰 만료 시 로그아웃)
 AuthApi.interceptors.response.use(
   (response) => response,
   (error) => {
