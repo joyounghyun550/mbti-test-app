@@ -1,13 +1,35 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import useAuthStore from "../../zustand/bearsStore";
+import { ALERT_TYPE } from "../../contansts/alertConstant";
+import { alert } from "../../utils/alert";
+import Swal from "sweetalert2";
 
 const Header = () => {
   const { isAuthenticated, logout } = useAuthStore();
   const navigate = useNavigate();
+  const { WARNING } = ALERT_TYPE;
+  const alertConsole = alert();
 
   const handleLogout = () => {
-    logout(); // 로그아웃 처리
-    navigate("/login"); // 로그아웃 후 로그인 페이지로 리다이렉트
+    alertConsole({
+      type: WARNING,
+      content: "정말로 로그아웃 하시겠습니까?",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // 승인 알림 표시
+        Swal.fire({
+          title: "로그아웃이 되었습니다.",
+          icon: "success",
+          confirmButtonText: "확인",
+          confirmButtonColor: "rgb(150, 150, 150)",
+          customClass: {
+            confirmButton: "custom-confirm-button",
+          },
+        });
+        logout(); // 로그아웃 처리
+        navigate("/login"); // 로그아웃 후 로그인 페이지로 리다이렉트
+      }
+    });
   };
 
   return (

@@ -7,7 +7,7 @@ import { mbtiDescriptions } from "../../utils/mbtiCalculator";
 import useGetInfo from "../../hook/useGetInfo";
 import { getUserProfile } from "../../api/auth";
 import useSmartMutation from "../../hook/useSmartMutation";
-import { formatDate } from "../../utils/\bformatDate";
+import { formatDate } from "../../utils/formatDate";
 
 const TestItem = ({ item }) => {
   const updateMutation = useSmartMutation(updateTestResultVisibility, [

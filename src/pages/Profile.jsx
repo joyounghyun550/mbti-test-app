@@ -14,9 +14,8 @@ const Profile = () => {
     e.preventDefault();
     try {
       await updateMutation.mutateAsync({ nickname });
-      alert("업데이트 성공!");
     } catch (error) {
-      alert(error.response?.data?.message || "오류가 발생했습니다.");
+      console.error(error);
     }
   };
 

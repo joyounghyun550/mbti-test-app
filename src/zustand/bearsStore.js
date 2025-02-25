@@ -10,6 +10,8 @@ const useAuthStore = create((set) => ({
       const data = await apiLogin(userData);
       if (data.accessToken) {
         set({ isAuthenticated: true });
+        const userProfile = await getUserProfile();
+        set({ user: userProfile });
       } else {
         set({ isAuthenticated: false });
       }

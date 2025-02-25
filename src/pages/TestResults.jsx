@@ -1,11 +1,11 @@
 import { getTestResults } from "../api/testResults";
 import { QUERY_KEYS } from "../contansts/queryKeys";
 import TestItem from "../components/Test/TestItem";
-import useAuthStore from "../zustand/bearsStore";
 import useGetInfo from "../hook/useGetInfo";
+import { getUserProfile } from "../api/auth";
 
 const TestResults = () => {
-  const { user } = useAuthStore();
+  const { data: userInfo } = useGetInfo([QUERY_KEYS.USER], getUserProfile);
   const { data, isPending, isError } = useGetInfo(
     [QUERY_KEYS.RESULTS],
     getTestResults
@@ -21,7 +21,9 @@ const TestResults = () => {
 
   // 필터링된 결과 계산
   const filteredResults = data.filter((result) => {
-    return result.visibility === true || (user && result.userId === user.id);
+    return (
+      result.visibility === true || (userInfo && result.userId === userInfo.id)
+    );
   });
 
   return (

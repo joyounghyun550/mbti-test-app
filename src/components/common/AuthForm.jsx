@@ -84,7 +84,7 @@ const AuthForm = ({ mode }) => {
 
       <button
         type="submit"
-        className="w-full bg-primary-color text-white py-3 rounded-lg hover:bg-secondary-color transition duration-300 hover:text-[#FF5A5F]"
+        className="w-full bg-primary-color text-white py-3 rounded-lg transition duration-300 hover:scale-105"
       >
         {isLoginMode ? "로그인" : "회원가입"}
       </button>
