@@ -3,13 +3,21 @@ import { getUserProfile, updateProfile } from "../api/auth";
 import { QUERY_KEYS } from "../contansts/queryKeys";
 import useGetInfo from "../hook/useGetInfo";
 import useSmartMutation from "../hook/useSmartMutation";
+import Loading from "../components/common/Loding";
 
 const Profile = () => {
   const [nickname, setNickname] = useState("");
   // 유저 정보 가져오기 훅
-  const { data } = useGetInfo([QUERY_KEYS.USER], getUserProfile);
+  const { data, isPending, isError } = useGetInfo(
+    [QUERY_KEYS.USER],
+    getUserProfile
+  );
   // 프로필 업데이트 훅
   const updateMutation = useSmartMutation(updateProfile, [QUERY_KEYS.USER]);
+
+  if (isPending || isError) {
+    return <Loading notification={"데이터를 받아오는 중..."} />;
+  }
 
   // 프로필 수정 업데이트 함수
   const handleSubmit = async (e) => {

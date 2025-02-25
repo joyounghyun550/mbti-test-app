@@ -3,6 +3,7 @@ import { QUERY_KEYS } from "../contansts/queryKeys";
 import TestItem from "../components/Test/TestItem";
 import useGetInfo from "../hook/useGetInfo";
 import { getUserProfile } from "../api/auth";
+import Loading from "../components/common/Loding";
 
 const TestResults = () => {
   // 유저 정보 불러오기
@@ -13,14 +14,8 @@ const TestResults = () => {
     getTestResults
   );
 
-  // 로딩처리
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
-
-  // 에러처리
-  if (isError) {
-    return <div>Error...</div>;
+  if (isPending || isError) {
+    return <Loading notification={"데이터를 받아오는 중..."} />;
   }
 
   // 필터링된 결과 계산
