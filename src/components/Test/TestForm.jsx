@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { questions } from "../../data/questions";
-import { ALERT_TYPE } from "../../contansts/alertConstant";
+import { ALERT_TYPE } from "../../constants/alertConstant";
 import { alert } from "../../utils/alert";
 
 const TestForm = ({ onSubmit }) => {
@@ -9,6 +9,9 @@ const TestForm = ({ onSubmit }) => {
   );
   const { CHECK } = ALERT_TYPE;
   const alertConsole = alert();
+
+  // useRef로 질문 요소들을 관리하는 배열 생성
+  const questionRefs = useRef([]);
 
   const handleChange = (index, optionIndex) => {
     const newAnswers = [...answers];
@@ -29,14 +32,14 @@ const TestForm = ({ onSubmit }) => {
     );
 
     if (incompleteAnswerIndex !== -1) {
-      const questionElement = document.getElementById(
-        `question-${incompleteAnswerIndex}`
-      );
+      const questionElement = questionRefs.current[incompleteAnswerIndex];
 
-      // 스크롤 후 포커스 강제 설정
-      questionElement.scrollIntoView({ behavior: "smooth", block: "center" });
-      questionElement.tabIndex = -1;
-      questionElement.focus({ preventScroll: true }); // 스크롤 위치 유지
+      if (questionElement) {
+        // 스크롤 후 포커스 강제 설정
+        questionElement.scrollIntoView({ behavior: "smooth", block: "center" });
+        questionElement.tabIndex = -1;
+        questionElement.focus({ preventScroll: true }); // 스크롤 위치 유지
+      }
 
       // (2) 경고창 설정 변경
       alertConsole({
@@ -52,7 +55,12 @@ const TestForm = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6 p-6 bg-white rounded-lg">
       {questions.map((q, index) => (
-        <div key={q.id} id={`question-${index}`} className="mb-6" tabIndex={-1}>
+        <div
+          key={q.id}
+          ref={(el) => (questionRefs.current[index] = el)} // ref 설정
+          className="mb-6"
+          tabIndex={-1}
+        >
           <p className="font-semibold text-lg mb-3">{q.question}</p>
           <div className="space-y-2">
             {q.options.map((option, optionIndex) => {

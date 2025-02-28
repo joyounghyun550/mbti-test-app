@@ -1,6 +1,6 @@
 import MbtiApi from "../axios/MbtiApi";
-import { QUERY_KEYS } from "../contansts/queryKeys";
-import { ALERT_TYPE } from "../contansts/alertConstant";
+import { QUERY_KEYS } from "../constants/queryKeys";
+import { ALERT_TYPE } from "../constants/alertConstant";
 import { alert } from "../utils/alert";
 
 const { SUCCESS, ERROR } = ALERT_TYPE;

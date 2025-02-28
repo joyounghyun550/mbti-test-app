@@ -1,22 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getUserProfile, updateProfile } from "../api/auth";
-import { QUERY_KEYS } from "../contansts/queryKeys";
+import { QUERY_KEYS } from "../constants/queryKeys";
 import useGetInfo from "../hook/useGetInfo";
 import useSmartMutation from "../hook/useSmartMutation";
-import Loading from "../components/common/Loding";
+import Loading from "../components/common/Loading";
+import useAuthStore from "../zustand/bearsStore";
 
 const Profile = () => {
   const [nickname, setNickname] = useState("");
   // 유저 정보 가져오기 훅
-  const { data, isPending, isError } = useGetInfo(
-    [QUERY_KEYS.USER],
-    getUserProfile
-  );
+  // const { data, isPending, isError } = useGetInfo(
+  //   [QUERY_KEYS.USER],
+  //   getUserProfile
+  // );
+  const { user: data } = useAuthStore();
+  console.log(data);
   // 프로필 업데이트 훅
   const updateMutation = useSmartMutation(updateProfile, [QUERY_KEYS.USER]);
 
-  if (isPending || isError) {
-    return <Loading notification={"데이터를 받아오는 중..."} />;
+  // if (isPending || isError) {
+  //   return <Loading notification={"데이터를 받아오는 중..."} />;
+  // }
+
+  if (!data) {
+    return <Loading notification={"데이터를 받아오 중..."} />;
   }
 
   // 프로필 수정 업데이트 함수

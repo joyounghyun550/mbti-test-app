@@ -1,4 +1,3 @@
-// authStore.js
 import { create } from "zustand";
 import { apiLogin, getUserProfile } from "../api/auth";
 
@@ -8,6 +7,7 @@ const useAuthStore = create((set) => ({
   login: async (userData) => {
     try {
       const data = await apiLogin(userData);
+      console.log(data);
       if (data.accessToken) {
         set({ isAuthenticated: true });
         const userProfile = await getUserProfile();

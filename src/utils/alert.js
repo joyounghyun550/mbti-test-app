@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { ALERT_TYPE } from "../contansts/alertConstant";
+import { ALERT_TYPE } from "../constants/alertConstant";
 
 const { SUCCESS, WARNING, ERROR, CHECK } = ALERT_TYPE;
 

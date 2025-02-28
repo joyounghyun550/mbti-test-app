@@ -1,9 +1,9 @@
 import { getTestResults } from "../api/testResults";
-import { QUERY_KEYS } from "../contansts/queryKeys";
+import { QUERY_KEYS } from "../constants/queryKeys";
 import TestItem from "../components/Test/TestItem";
 import useGetInfo from "../hook/useGetInfo";
 import { getUserProfile } from "../api/auth";
-import Loading from "../components/common/Loding";
+import Loading from "../components/common/Loading";
 
 const TestResults = () => {
   // 유저 정보 불러오기

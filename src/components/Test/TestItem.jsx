@@ -2,7 +2,7 @@ import {
   deleteTestResult,
   updateTestResultVisibility,
 } from "../../api/testResults";
-import { QUERY_KEYS } from "../../contansts/queryKeys";
+import { QUERY_KEYS } from "../../constants/queryKeys";
 import { mbtiDescriptions } from "../../utils/mbtiCalculator";
 import useGetInfo from "../../hook/useGetInfo";
 import { getUserProfile } from "../../api/auth";

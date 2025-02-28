@@ -2,6 +2,8 @@ import { useState } from "react";
 import { register } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../zustand/bearsStore";
+import { alert } from "../../utils/alert";
+import { ALERT_TYPE } from "../../constants/alertConstant";
 
 const AuthForm = ({ mode }) => {
   const isLoginMode = mode === "login";
@@ -13,6 +15,9 @@ const AuthForm = ({ mode }) => {
     nickname: "",
   });
 
+  const { ERROR } = ALERT_TYPE;
+  const alertConsole = alert();
+
   // 입력값 변경 핸들러
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -21,18 +26,34 @@ const AuthForm = ({ mode }) => {
 
   // 로그인 처리 함수
   const handleLogin = async () => {
-    const success = await login({
-      id: formData.id,
-      password: formData.password,
-    });
-    if (success) navigate("/");
+    try {
+      const success = await login({
+        id: formData.id,
+        password: formData.password,
+      });
+      if (success) navigate("/");
+    } catch (error) {
+      alertConsole({
+        type: ERROR,
+        content: "로그인에 실패했습니다.",
+      });
+      console.log(error);
+    }
   };
 
   // 회원가입 처리 함수
   const handleRegister = async () => {
-    const success = await register(formData);
-    alert("회원가입이 완료되었습니다!");
-    if (success) navigate("/login");
+    try {
+      const success = await register(formData);
+      alert("회원가입이 완료되었습니다!");
+      if (success) navigate("/login");
+    } catch (error) {
+      console.log(error);
+      alertConsole({
+        type: ERROR,
+        content: "회원가입에 실패했습니다.",
+      });
+    }
   };
 
   // 폼 제출 핸들러

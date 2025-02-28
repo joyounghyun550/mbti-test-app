@@ -1,5 +1,5 @@
 import AuthApi from "../axios/AuthApi";
-import { ALERT_TYPE } from "../contansts/alertConstant";
+import { ALERT_TYPE } from "../constants/alertConstant";
 import { alert } from "../utils/alert";
 
 const { SUCCESS, ERROR } = ALERT_TYPE;

@@ -3,7 +3,7 @@ import TestForm from "../components/Test/TestForm";
 import { calculateMBTI, mbtiDescriptions } from "../utils/mbtiCalculator";
 import { createTestResult } from "../api/testResults";
 import { useNavigate } from "react-router-dom";
-import { QUERY_KEYS } from "../contansts/queryKeys";
+import { QUERY_KEYS } from "../constants/queryKeys";
 import useGetInfo from "../hook/useGetInfo";
 import { getUserProfile } from "../api/auth";
 import useSmartMutation from "../hook/useSmartMutation";

@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import useAuthStore from "../../zustand/bearsStore";
-import { ALERT_TYPE } from "../../contansts/alertConstant";
+import { ALERT_TYPE } from "../../constants/alertConstant";
 import { alert } from "../../utils/alert";
 import Swal from "sweetalert2";
 
